@@ -53,6 +53,43 @@ if (command === "create") {
     console.log("File content:");
     console.log(fileContent);
 
+
+} else if (command === "update") {
+    if (content === undefined) {
+        console.log("Please provide new file content.");
+        process.exit(1);
+    }
+
+    if (!fs.existsSync(filePath)) {
+        console.log("Error: File not found.");
+        process.exit(1);
+    }
+
+    fs.writeFileSync(filePath, content, "utf8");
+    console.log(`File updated: ${safeFileName}`);
+
+} else if (command === "delete") {
+    if (!fs.existsSync(filePath)) {
+        console.log("Error: File not found.");
+        process.exit(1);
+    }
+
+    fs.unlinkSync(filePath);
+    console.log(`File deleted: ${safeFileName}`);
+
+} else if (command === "list") {
+    const fileList = fs.readdirSync(filesDirectory);
+
+    if (fileList.length === 0) {
+        console.log("No files found.");
+    } else {
+        console.log("Files in directory:");
+
+        fileList.forEach((file) => {
+            console.log(`- ${file}`);
+        });
+    }
+
 } else {
     console.log("Error: Unknown command.");
 }
