@@ -77,6 +77,7 @@ if (command === "create") {
     fs.unlinkSync(filePath);
     console.log(`File deleted: ${safeFileName}`);
 
+
 } else if (command === "list") {
     const fileList = fs.readdirSync(filesDirectory);
 
@@ -86,7 +87,15 @@ if (command === "create") {
         console.log("Files in directory:");
 
         fileList.forEach((file) => {
-            console.log(`- ${file}`);
+            const fullPath = path.join(filesDirectory, file);
+            const extension = path.extname(file);
+            const fileContent = fs.readFileSync(fullPath, "utf8");
+
+            console.log("\n----------------------------");
+            console.log("Filename:", file);
+            console.log("Full Path:", fullPath);
+            console.log("Extension:", extension || "No extension");
+            console.log("Content:", fileContent);
         });
     }
 
